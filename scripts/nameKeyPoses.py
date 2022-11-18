@@ -1,13 +1,13 @@
-import os
+from glob import glob
 from functools import lru_cache
 import json
 import matplotlib.pyplot as plt
-import time
+from time import time as ttime
 
 def main():
 
     # runtime start
-    starttime = time.time()
+    starttime = ttime()
 
     # variables
     output_dir:str = "C:/Users/vince/Desktop/open-just-dance/output/choreographies/dance"
@@ -22,7 +22,7 @@ def main():
     reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     # print(len(reference))
 
-    endtime = time.time()
+    endtime = ttime()
     elapsed_time = endtime - starttime
     print('Execution time:', elapsed_time, 'seconds')
 
@@ -54,7 +54,7 @@ def main():
     
 # function to get all the files in the directory ()
 @lru_cache(maxsize=None)
-def readPaths(filepath:str) -> list: return [os.path.join(filepath, file) for file in os.listdir(filepath)]
+def readPaths(filepath: str) -> list: return glob(f"{filepath}/*.json")
 
 def returnListofTuples(file,x):
     with open(file[x]) as f:
@@ -75,9 +75,6 @@ def returnAllKeyPointsOfChoreography(file):
         a = returnListofTuples(file,x)
         keypoint.append(a)
     return keypoint
-
-def printcoordinates():
-    print("nothing")
 
 if __name__ == "__main__":
     main()
