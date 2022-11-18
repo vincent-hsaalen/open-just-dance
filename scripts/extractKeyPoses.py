@@ -27,8 +27,8 @@ def main():
     # print(posekeypoints)
 
     # delete confidence values from list
-    n = 3
-    del posekeypoints[n-1::n]
+    # n = 3
+    del posekeypoints[2::3]
     # print(posekeypoints)
     # print(len(posekeypoints))
 
