@@ -19,9 +19,17 @@ def main():
         print(f'{count}. {listwithparts[count]}: {coordinates}')
         count+=1
 
+    reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
+    # print(len(reference))
+
     endtime = time.time()
     elapsed_time = endtime - starttime
     print('Execution time:', elapsed_time, 'seconds')
+
+    # von 1 zu 8
+    # von 1 zu 2
+    # von 1 zu 5
+    # von 1 zu 0
 
 
    

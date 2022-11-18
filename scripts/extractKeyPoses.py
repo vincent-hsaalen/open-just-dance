@@ -2,7 +2,6 @@ import os
 from functools import lru_cache
 import json
 import time
-from matplotlib import pyplot as plt
 
 def main():
 

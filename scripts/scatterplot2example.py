@@ -32,9 +32,6 @@ def main():
                 print(count)
         count+=1
     
-    
-    
-
     plt.show()
 
 
