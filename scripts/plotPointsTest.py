@@ -1,3 +1,7 @@
+
+point_1 = [1,3]
+point_2 = [2,6]
+
 import os
 from functools import lru_cache
 import json
@@ -16,11 +20,16 @@ def main():
     count=0
     for coordinates in returnAllKeyPointsOfChoreography(jsonfiles)[0]: 
         
-        print(f'{count}. {listwithparts[count]}: {coordinates}')
+        # prints all coordinates from BODY_25
+        # print(f'{count}. {listwithparts[count]}: {coordinates}')
+        plotPointsasLine(listwithparts, point_2)
         count+=1
 
     reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     # print(len(reference))
+
+    plotPointsasLine(point_1, point_2)
+    plt.show()
 
     endtime = time.time()
     elapsed_time = endtime - starttime
@@ -51,14 +60,12 @@ def main():
     # von 14 zu 21
     # von 19 zu 20
 
-    # von 1 zu 8
-    
-    
-    
+    # von 1 zu 8 
 
-
-   
-
+def plotPointsasLine(point_1, point_2):
+    x_values = [point_1[0], point_2[0]]
+    y_values = [point_1[1], point_2[1]]
+    plt.plot(x_values, y_values)
 
 # function to get all the files in the directory ()
 @lru_cache(maxsize=None)
