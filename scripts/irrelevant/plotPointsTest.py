@@ -1,7 +1,3 @@
-
-point_1 = [1,3]
-point_2 = [2,6]
-
 import os
 from functools import lru_cache
 import json
@@ -18,29 +14,17 @@ def main():
     jsonfiles = readPaths(output_dir)
     listwithparts = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     count=0
-    for coordinates in returnAllKeyPointsOfChoreography(jsonfiles)[0]: 
+    for coordinates in returnAllKeyPointsOfChoreography(jsonfiles)[84]: 
         
         # prints all coordinates from BODY_25
         # print(f'{count}. {listwithparts[count]}: {coordinates}')
-        plotPointsasLine(listwithparts, point_2)
         count+=1
 
-    reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
-    # print(len(reference))
+    # 22 single function calls
 
-    plotPointsasLine(point_1, point_2)
-    plt.show()
-
-    endtime = time.time()
-    elapsed_time = endtime - starttime
-    print('Execution time:', elapsed_time, 'seconds')
-
-    
     # von 0 zu 1
-    # von 0 zu 15
-    # von 0 zu 16
-    # von 15 zu 17
-    # von 16 zu 18
+    # von 1 zu 8 
+   
     # von 1 zu 2
     # von 1 zu 5
     # von 2 zu 3
@@ -52,15 +36,21 @@ def main():
     # von 9 zu 10
     # von 10 zu 11
     # von 12 zu 13
-    # von 13 zu 14
-    # von 11 zu 24
-    # von 11 zu 22
-    # von 22 zu 23
-    # von 14 zu 19
-    # von 14 zu 21
-    # von 19 zu 20
 
-    # von 1 zu 8 
+    plotPointsasLine(listwithparts[0], listwithparts[1])
+    plotPointsasLine(listwithparts[1], listwithparts[8])
+    plotPointsasLine(listwithparts[1], listwithparts[2])
+    plotPointsasLine(listwithparts[1], listwithparts[5])
+
+    
+    plt.show()
+
+    # reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
+    # print(len(reference))
+
+    endtime = time.time()
+    elapsed_time = endtime - starttime
+    print('Execution time:', elapsed_time, 'seconds')
 
 def plotPointsasLine(point_1, point_2):
     x_values = [point_1[0], point_2[0]]
