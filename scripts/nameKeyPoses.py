@@ -1,7 +1,6 @@
 from glob import glob
 from functools import lru_cache
 import json
-import matplotlib.pyplot as plt
 from time import time as ttime
 
 def main():
@@ -19,38 +18,13 @@ def main():
         print(f'{count}. {listwithparts[count]}: {coordinates}')
         count+=1
 
-    reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
+    # reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     # print(len(reference))
 
     endtime = ttime()
     elapsed_time = endtime - starttime
     print('Execution time:', elapsed_time, 'seconds')
 
-    
-    # von 0 zu 1
-    # von 0 zu 15
-    # von 0 zu 16
-    # von 15 zu 17
-    # von 16 zu 18
-    # von 1 zu 2
-    # von 1 zu 5
-    # von 2 zu 3
-    # von 3 zu 4
-    # von 5 zu 6
-    # von 6 zu 7
-    # von 8 zu 9
-    # von 8 zu 12
-    # von 9 zu 10
-    # von 10 zu 11
-    # von 12 zu 13
-    # von 13 zu 14
-    # von 11 zu 24
-    # von 11 zu 22
-    # von 22 zu 23
-    # von 14 zu 19
-    # von 14 zu 21
-    # von 19 zu 20
-    # von 1 zu 8
     
 # function to get all the files in the directory ()
 @lru_cache(maxsize=None)
