@@ -50,16 +50,8 @@ def main():
     # von 14 zu 19
     # von 14 zu 21
     # von 19 zu 20
-
     # von 1 zu 8
     
-    
-    
-
-
-   
-
-
 # function to get all the files in the directory ()
 @lru_cache(maxsize=None)
 def readPaths(filepath:str) -> list: return [os.path.join(filepath, file) for file in os.listdir(filepath)]
