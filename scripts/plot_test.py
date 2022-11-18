@@ -1,15 +1,17 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
+from matplotlib import rcParams
 
-# 1st line
-point_1 = [1,3]
-point_2 = [2,6]
+def main():
+    POINTS: list = [[1, 3], [2, 6], [4, 6], [1, 2]] # [point1, point2, point3, point4]
 
-# 2nd line
-point_3 = [4,6]
-point_4 = [1,2]
+    x_values: list = [[POINTS[0][0], POINTS[2][0]],[POINTS[1][0], POINTS[3][0]]]
+    y_values: list = [[POINTS[0][1], POINTS[2][1]],[POINTS[1][1], POINTS[3][1]]]
+   
+    rcParams["toolbar"] = "None"
+    plt.plot(x_values, y_values , "red")
+    plt.title("Example")
+    plt.show()
 
-x_values = [[point_1[0], point_3[0]],[point_2[0], point_4[0]]]
-y_values = [[point_1[1], point_3[1]],[point_2[1], point_4[1]]]
 
-plt.plot(x_values, y_values, 'red')
-plt.show()
+if __name__ == "__main__":
+    main()
