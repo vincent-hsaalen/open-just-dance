@@ -1,7 +1,9 @@
+import os
 from functools import lru_cache
 import json
 import numpy as np
 import time
+import os
 from glob import glob
 def main():
    
@@ -18,9 +20,11 @@ def main():
     # list with body parts
     bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
+    skeletonPoints = returnListofTuples(jsonfiles,0)
+    print(len(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))))
 
     # -------------------------------------------- #
-    
+    # print(returnTotalSkeletonKeyPoints(jsonfiles))
     # -------------------------------------------- #
 
     # --- runtime end --- #
@@ -192,8 +196,3 @@ if __name__ == "__main__":
 
     # prints list of all angles (in degrees)
     # print(returnAngles(returnSlopes(pointsRelationList)))
-
-    # skeletonPoints = returnListofTuples(jsonfiles,0)
-    # print(f'skeletonPoints: {skeletonPoints}')
-    # print(len(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))))
-    # print(returnTotalSkeletonKeyPoints(jsonfiles))

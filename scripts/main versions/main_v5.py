@@ -1,7 +1,9 @@
+import os
 from functools import lru_cache
 import json
 import numpy as np
 import time
+import os
 from glob import glob
 def main():
    
@@ -18,9 +20,41 @@ def main():
     # list with body parts
     bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
+    skeletonPoints = returnListofTuples(jsonfiles,0)
+    # lists that contain two points that are in relation to each other 
+    # (e.g. Neck and RShoulder/Neck and LShoulder) --> [(x1,y1),(x2,y2)]
+    L_0_1: list = [skeletonPoints[0], skeletonPoints[1]]
+    L_0_15: list = [skeletonPoints[0], skeletonPoints[15]]
+    L_0_16: list = [skeletonPoints[0], skeletonPoints[16]]
+    L_15_17: list = [skeletonPoints[15], skeletonPoints[17]]
+    L_16_18: list = [skeletonPoints[16], skeletonPoints[18]]
+    L_1_2: list = [skeletonPoints[1], skeletonPoints[2]]
+    L_1_5: list = [skeletonPoints[1], skeletonPoints[5]]
+    L_2_3: list = [skeletonPoints[2], skeletonPoints[3]]
+    L_3_4: list = [skeletonPoints[3], skeletonPoints[4]]
+    L_5_6: list = [skeletonPoints[5], skeletonPoints[6]]
+    L_6_7: list = [skeletonPoints[6], skeletonPoints[7]]
+    L_8_9: list = [skeletonPoints[8], skeletonPoints[9]]
+    L_8_12: list = [skeletonPoints[8], skeletonPoints[12]]
+    L_9_10: list = [skeletonPoints[9], skeletonPoints[10]]
+    L_10_11: list = [skeletonPoints[10], skeletonPoints[11]]
+    L_12_13: list = [skeletonPoints[12], skeletonPoints[13]]
+    L_13_14: list = [skeletonPoints[13], skeletonPoints[14]]
+    L_11_24: list = [skeletonPoints[11], skeletonPoints[24]]
+    L_11_22: list = [skeletonPoints[11], skeletonPoints[22]]
+    L_22_23: list = [skeletonPoints[22], skeletonPoints[23]]
+    L_14_19: list = [skeletonPoints[14], skeletonPoints[19]]
+    L_14_21: list = [skeletonPoints[14], skeletonPoints[21]]
+    L_19_20: list = [skeletonPoints[19], skeletonPoints[20]]
+    L_1_8: list = [skeletonPoints[1], skeletonPoints[8]]
+    
+    # list of all lists
+    pointsRelationList: list[list] = [L_0_1, L_0_15, L_0_16, L_15_17, L_16_18, L_1_2, L_1_5, L_2_3, L_3_4, 
+    L_5_6, L_6_7, L_8_9, L_8_12, L_9_10, L_10_11, L_12_13, L_13_14, 
+    L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
 
     # -------------------------------------------- #
-    
+    print(returnTotalSkeletonKeyPoints(jsonfiles))
     # -------------------------------------------- #
 
     # --- runtime end --- #
@@ -127,9 +161,6 @@ def returnAngles(listOfSlopes):
 
     return listOfAngles
 
-# returns a list containing lists of tuples --> 
-# [[(x1,y1),(x2,y2),...,(x25,y25)],[(x1,y1),(x2,y2),...,(x25,y25)],...]
-# each list of tuples is equivalent to one json file (one frame)
 def returnTotalSkeletonKeyPoints(listofjsonfiles):
     keyPointList = []
     for count, data in enumerate(listofjsonfiles):
@@ -140,44 +171,6 @@ def returnTotalSkeletonKeyPoints(listofjsonfiles):
     # print(f'keyPointList: {keyPointList[0]}')
     # print(f'keyPointList: {keyPointList[60]}')
     return keyPointList
-
-def returnListWithPointsRelation(totalSkeletonPoints):
-    listToReturn = []
-    for skeletonPoints in totalSkeletonPoints: 
-        # lists that contain two points that are in relation to each other 
-        # (e.g. Neck and RShoulder/Neck and LShoulder) --> [(x1,y1),(x2,y2)]
-        L_0_1: list = [skeletonPoints[0], skeletonPoints[1]]
-        L_0_15: list = [skeletonPoints[0], skeletonPoints[15]]
-        L_0_16: list = [skeletonPoints[0], skeletonPoints[16]]
-        L_15_17: list = [skeletonPoints[15], skeletonPoints[17]]
-        L_16_18: list = [skeletonPoints[16], skeletonPoints[18]]
-        L_1_2: list = [skeletonPoints[1], skeletonPoints[2]]
-        L_1_5: list = [skeletonPoints[1], skeletonPoints[5]]
-        L_2_3: list = [skeletonPoints[2], skeletonPoints[3]]
-        L_3_4: list = [skeletonPoints[3], skeletonPoints[4]]
-        L_5_6: list = [skeletonPoints[5], skeletonPoints[6]]
-        L_6_7: list = [skeletonPoints[6], skeletonPoints[7]]
-        L_8_9: list = [skeletonPoints[8], skeletonPoints[9]]
-        L_8_12: list = [skeletonPoints[8], skeletonPoints[12]]
-        L_9_10: list = [skeletonPoints[9], skeletonPoints[10]]
-        L_10_11: list = [skeletonPoints[10], skeletonPoints[11]]
-        L_12_13: list = [skeletonPoints[12], skeletonPoints[13]]
-        L_13_14: list = [skeletonPoints[13], skeletonPoints[14]]
-        L_11_24: list = [skeletonPoints[11], skeletonPoints[24]]
-        L_11_22: list = [skeletonPoints[11], skeletonPoints[22]]
-        L_22_23: list = [skeletonPoints[22], skeletonPoints[23]]
-        L_14_19: list = [skeletonPoints[14], skeletonPoints[19]]
-        L_14_21: list = [skeletonPoints[14], skeletonPoints[21]]
-        L_19_20: list = [skeletonPoints[19], skeletonPoints[20]]
-        L_1_8: list = [skeletonPoints[1], skeletonPoints[8]]
-    
-        # list of all lists
-        pointsRelationList: list[list] = [L_0_1, L_0_15, L_0_16, L_15_17, L_16_18, L_1_2, L_1_5, L_2_3, L_3_4, 
-        L_5_6, L_6_7, L_8_9, L_8_12, L_9_10, L_10_11, L_12_13, L_13_14, 
-        L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
-        listToReturn.append(pointsRelationList)
-    return listToReturn
-
 
 if __name__ == "__main__":
     main()
@@ -192,8 +185,3 @@ if __name__ == "__main__":
 
     # prints list of all angles (in degrees)
     # print(returnAngles(returnSlopes(pointsRelationList)))
-
-    # skeletonPoints = returnListofTuples(jsonfiles,0)
-    # print(f'skeletonPoints: {skeletonPoints}')
-    # print(len(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))))
-    # print(returnTotalSkeletonKeyPoints(jsonfiles))
