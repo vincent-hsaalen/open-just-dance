@@ -1,0 +1,12 @@
+import numpy as np
+
+def calculateSlope(x1, y1, x2, y2) -> np.float64:
+    return np.round_((y2 - y1) / (x2 - x1), decimals=2)
+
+x1 = 0
+y1 = 0
+x2 = 1
+y2 = 1
+
+print(calculateSlope(2,2,7,9))
+

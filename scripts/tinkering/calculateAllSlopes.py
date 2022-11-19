@@ -3,6 +3,7 @@ from functools import lru_cache
 import json
 import numpy as np
 import time
+import os
 
     # von 0 zu 1
     # von 0 zu 15
@@ -89,14 +90,16 @@ def main():
     # print(slope_0_1)
     # print(slope_1_8)
 
+    print(SLOPES[0])
+
     #calculate all angles
-    print(calculateAngle(SLOPES[0], SLOPES[23]))
-    print(calculateAngle(SLOPES[5], SLOPES[23]))
-    print(calculateAngle(SLOPES[7], SLOPES[8]))
-    print(calculateAngle(SLOPES[9], SLOPES[10]))
-    print(calculateAngle(SLOPES[11], SLOPES[12]))
-    print(calculateAngle(SLOPES[13], SLOPES[14]))
-    print(calculateAngle(SLOPES[15], SLOPES[16]))
+    # print(calculateAngle(SLOPES[0], SLOPES[23]))
+    # print(calculateAngle(SLOPES[5], SLOPES[23]))
+    # print(calculateAngle(SLOPES[7], SLOPES[8]))
+    # print(calculateAngle(SLOPES[9], SLOPES[10]))
+    # print(calculateAngle(SLOPES[11], SLOPES[12]))
+    # print(calculateAngle(SLOPES[13], SLOPES[14]))
+    # print(calculateAngle(SLOPES[15], SLOPES[16]))
 
     # reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     # print(len(reference))
@@ -130,6 +133,10 @@ def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64:
 
 def calculateSlope(x1, y1, x2, y2) -> np.float64:
     return np.round_((y2 - y1) / (x2 - x1), decimals=2)
+
+# get Porn from Rest API
+
+
 
 if __name__ == "__main__":
     main()
