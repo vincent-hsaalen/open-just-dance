@@ -15,12 +15,18 @@ def main():
     output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/single"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = readPaths(output_dir)
+    # total number of json files
+    totalJsonFiles: int = len(jsonfiles)
     # list with body parts
     bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
 
     # -------------------------------------------- #
-    print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[0])))
+    # prints all angles for AAAAAALLLLLLLLL json files in the output folder
+    for count  in range(0, totalJsonFiles):
+        print(f"angles for iteration/frame {count}: ")
+        print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))
+        
     # -------------------------------------------- #
 
     # --- runtime end --- #
@@ -135,7 +141,7 @@ def returnTotalSkeletonKeyPoints(listofjsonfiles):
     for count, data in enumerate(listofjsonfiles):
         keyPointList.append(returnListofTuples(listofjsonfiles, count))
         # print(f'File {count} of {totalJsonFiles} done')
-        print(f'Data: {data}')
+        # print(f'Data: {data}')
 
     # print(f'keyPointList: {keyPointList[0]}')
     # print(f'keyPointList: {keyPointList[60]}')
@@ -177,7 +183,6 @@ def returnListWithPointsRelation(totalSkeletonPoints):
         L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
         listToReturn.append(pointsRelationList)
     return listToReturn
-
 
 if __name__ == "__main__":
     main()
