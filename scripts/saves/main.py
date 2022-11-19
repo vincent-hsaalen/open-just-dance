@@ -19,7 +19,7 @@ def main():
     # list with body parts
     bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
-    POINT_CHEO = returnListofTuples(jsonfiles,0)
+    POINT_CHEO = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     L_0_1: list = [POINT_CHEO[0], POINT_CHEO[1]]
     L_0_15: list = [POINT_CHEO[0], POINT_CHEO[15]]
     L_0_16: list = [POINT_CHEO[0], POINT_CHEO[16]]
@@ -51,7 +51,9 @@ def main():
     L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
 
     # print all body parts and their coordinates
-    print(printBodyPartsAndCoordinatesForDebuggingForOneFile(jsonfiles, 0))
+    print("\n--- body parts and their coordinates ---")
+    for count, coordinates in enumerate(returnAllKeyPointsOfChoreography(jsonfiles)[0]): 
+        print(f'{count}. {bodyParts[count]}: {coordinates}')
     
     # calculate slopes
     SLOPES: list[np.float64] = [calculateSlope(POINTS_LIST[c][0][0], POINTS_LIST[c][0][1], POINTS_LIST[c][1][0], POINTS_LIST[c][1][1]) for c in range(0, len(POINTS_LIST))]
@@ -69,7 +71,7 @@ def main():
     HIP_RIGHT: np.float64 = calculateAngle(SLOPES[11], SLOPES[13], 7)
     HIP_LEFT: np.float64 = calculateAngle(SLOPES[12], SLOPES[15], 8)
 
-    print("\n--- ANGELS ---")
+    print("\n----ANGELS----")
     print(f"BODY: {BODY}°")
     print(f"ARM_RIGHT: {ARM_RIGHT}°")
     print(f"ARM_LEFT: {ARM_LEFT}°")
@@ -89,27 +91,15 @@ def main():
 @lru_cache(maxsize=None)
 def readPaths(filepath: str) -> list: return glob(f"{filepath}/*.json")
 
-# return list of key points (as tuples[x,y]) from json file at index and filters confidence values
-def returnListofTuples(file,index):
-
-    # list that will contain all the key x,y and c values for one file
-    listoftuples = []
-    # open json file at index and fully read it
-    with open(file[index]) as jsonFile:
-        data = json.load(jsonFile)
-
-    # get ONLY the keypoints from the json file
-    keyPoints = data["people"][0]["pose_keypoints_2d"]
-
-    # delete the c (confidence) values from list
-    del keyPoints[2::3]
+def returnListofTuples(file: str,x) -> list:
+    with open(file[x]) as f:
+        data = json.load(f)
+    posekeypoints = data["people"][0]["pose_keypoints_2d"]
+    del posekeypoints[2::3]
    
-   # create a list of tuples with the x,y values
-   # --> [(x1,y1),(x2,y2),(x3,y3),...]
-    for i in range(0, len(keyPoints), 2):
-        listoftuples.append((keyPoints[i], keyPoints[i+1]))
+    return [(posekeypoints[i], posekeypoints[i+1]) for i in range(0, len(posekeypoints), 2)]
 
-    return listoftuples
+def returnAllKeyPointsOfChoreography(file: str) -> list: return [returnListofTuples(file, x) for x in range(0, len(file))]
 
 # calculates angles of two lines by using the slope of the lines and calculating the arctan
 def calculateAngle(m1: np.float64, m2: np.float64, body_id:int) -> (np.float64 | None):
@@ -128,19 +118,10 @@ def calculateAngle(m1: np.float64, m2: np.float64, body_id:int) -> (np.float64 |
 
     return np.round_(angle_gr, decimals=2)
 
-# calculates the slope of two points by using the formula: m = (y2-y1)/(x2-x1)
 def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64: return np.round_((y2 - y1) / (x2 - x1), decimals=2)
 
-# only for debugging
-def printBodyPartsAndCoordinatesForDebuggingForOneFile(jsonfiles, index):
-    parts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", 
-    "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", 
-    "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", 
-    "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
+# def calculateAndPrintAngles():
 
-    print("\n--- body parts and their coordinates ---")
-    for count, coordinates in enumerate(returnListofTuples(jsonfiles, index)): 
-        print(f'{count}. {parts[count]}: {coordinates}')
 
 if __name__ == "__main__":
     main()
