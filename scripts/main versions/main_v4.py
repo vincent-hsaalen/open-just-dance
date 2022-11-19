@@ -61,8 +61,8 @@ def main():
     # print(returnSlopes(pointsRelationList))
 
     # prints list of all angles (in degrees)
-    print(returnAngles(returnSlopes(pointsRelationList)))
-
+    # print(returnAngles(returnSlopes(pointsRelationList)))
+    print(pointsRelationList)
     # --- runtime end --- #
     endtime = time.time()
     elapsed_time = endtime - starttime
