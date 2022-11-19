@@ -3,6 +3,8 @@ from functools import lru_cache
 import json
 from time import time as ttime
 
+# lists all key Pose Names from listwithparts and matches them with the coordinates
+
 def main():
 
     # runtime start
