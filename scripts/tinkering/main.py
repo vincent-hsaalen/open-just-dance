@@ -57,15 +57,15 @@ def main():
     
     # calculate all angles
     
-    BODY: np.float64 = calculateAngle(SLOPES[0], SLOPES[23])
-    ARM_RIGHT: np.float64 = calculateAngle(SLOPES[7], SLOPES[8])
-    ARM_LEFT: np.float64 = calculateAngle(SLOPES[9], SLOPES[10])
-    SHOULDER_RIGHT: np.float64 = calculateAngle(SLOPES[5], SLOPES[7])
-    SHOULDER_LEFT: np.float64 = calculateAngle(SLOPES[6], SLOPES[9])
-    LEG_RIGHT: np.float64 = calculateAngle(SLOPES[13], SLOPES[14])
-    LEG_LEFT: np.float64 = calculateAngle(SLOPES[15], SLOPES[16])
-    HIP_RIGHT: np.float64 = calculateAngle(SLOPES[11], SLOPES[13])
-    HIP_LEFT: np.float64 = calculateAngle(SLOPES[12], SLOPES[15])
+    BODY: np.float64 = calculateAngle(SLOPES[0], SLOPES[23], 0)
+    ARM_RIGHT: np.float64 = calculateAngle(SLOPES[7], SLOPES[8], 1)
+    ARM_LEFT: np.float64 = calculateAngle(SLOPES[9], SLOPES[10], 2)
+    SHOULDER_RIGHT: np.float64 = calculateAngle(SLOPES[5], SLOPES[7] ,3)
+    SHOULDER_LEFT: np.float64 = calculateAngle(SLOPES[6], SLOPES[9], 4)
+    LEG_RIGHT: np.float64 = calculateAngle(SLOPES[13], SLOPES[14], 5)
+    LEG_LEFT: np.float64 = calculateAngle(SLOPES[15], SLOPES[16], 6)
+    HIP_RIGHT: np.float64 = calculateAngle(SLOPES[11], SLOPES[13], 7)
+    HIP_LEFT: np.float64 = calculateAngle(SLOPES[12], SLOPES[15], 8)
 
     print("\n----ANGELS----")
     print(f"BODY: {BODY}°")
@@ -97,15 +97,19 @@ def returnAllKeyPointsOfChoreography(file: str) -> list: return [returnListofTup
 
 counter:int = 0
 
-def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64 | None:
+def calculateAngle(m1: np.float64, m2: np.float64, body_id:int) -> (np.float64 | None):
     global counter
     angle_bg = np.arctan((m1 - m2) / (1+m1*m2))
     angle_gr = 180 - np.degrees(angle_bg)
+    WARN_LIST: list = [2, 5]
+    
+    if body_id in WARN_LIST: 
+        angle_gr = 360 - angle_gr
+        counter += 1
+        print(f"[{counter}. Auftrag] -> in WARN_LIST! [body_id: {body_id}]")
+    else:
+        if angle_gr >  180: angle_gr = angle_gr - 180
 
-    if angle_gr >  180: angle_gr = angle_gr - 180
-    
-    
-    
     return np.round_(angle_gr, decimals=2)
 
 def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64: return np.round_((y2 - y1) / (x2 - x1), decimals=2)
