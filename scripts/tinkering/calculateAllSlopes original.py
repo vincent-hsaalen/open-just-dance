@@ -76,10 +76,11 @@ def main():
         print(f'{count}. {listwithparts[count]}: {coordinates}')
     
     # calculate slopes
-    SLOPES: list[np.float64] = [calculateSlope(POINTS_LIST[c][0][0], POINTS_LIST[c][1][0], POINTS_LIST[c][0][1], POINTS_LIST[c][1][1]) for c in range(0, len(POINTS_LIST))]
-    print(SLOPES)
-    print(len(POINTS_LIST))
+    SLOPES: list[np.float64] = [calculateSlope(POINTS_LIST[c][0][0], POINTS_LIST[c][0][1], POINTS_LIST[c][1][0], POINTS_LIST[c][1][1]) for c in range(0, len(POINTS_LIST))]
+    print(f"SLOPES: {SLOPES}")
 
+    # print(L_0_1[0][0], L_0_1[0][1], L_0_1[1][0], L_0_1[1][1])
+    # print(calculateSlope(L_0_1[0][0], L_0_1[0][1], L_0_1[1][0], L_0_1[1][1]))
     # info
 
     # for c in range(0, len(L)):
@@ -90,16 +91,18 @@ def main():
     # print(slope_0_1)
     # print(slope_1_8)
 
-    print(SLOPES[0])
+    
+    # print(returnAllKeyPointsOfChoreography(jsonfiles)[0])
 
-    #calculate all angles
-    # print(calculateAngle(SLOPES[0], SLOPES[23]))
-    # print(calculateAngle(SLOPES[5], SLOPES[23]))
-    # print(calculateAngle(SLOPES[7], SLOPES[8]))
-    # print(calculateAngle(SLOPES[9], SLOPES[10]))
-    # print(calculateAngle(SLOPES[11], SLOPES[12]))
-    # print(calculateAngle(SLOPES[13], SLOPES[14]))
-    # print(calculateAngle(SLOPES[15], SLOPES[16]))
+    # calculate all angles
+    
+    print(f"Angel: {calculateAngle(SLOPES[0], SLOPES[23])}°")
+    print(f"Angel: {calculateAngle(SLOPES[5], SLOPES[23])}°")
+    print(f"Angel: {calculateAngle(SLOPES[7], SLOPES[8])}°")
+    print(f"Angel: {calculateAngle(SLOPES[9], SLOPES[10])}°")
+    print(f"Angel: {calculateAngle(SLOPES[11], SLOPES[12])}°")
+    print(f"Angel: {calculateAngle(SLOPES[13], SLOPES[14])}°")
+    print(f"Angel: {calculateAngle(SLOPES[15], SLOPES[16])}°")
 
     # reference = returnAllKeyPointsOfChoreography(jsonfiles)[0]
     # print(len(reference))
@@ -131,7 +134,7 @@ def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64:
     angle_gr = np.degrees(angle_bg)
     return np.round_(angle_gr, decimals=2)
 
-def calculateSlope(x1, y1, x2, y2) -> np.float64:
+def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64:
     return np.round_((y2 - y1) / (x2 - x1), decimals=2)
 
 # get Porn from Rest API
@@ -140,5 +143,3 @@ def calculateSlope(x1, y1, x2, y2) -> np.float64:
 
 if __name__ == "__main__":
     main()
-
-

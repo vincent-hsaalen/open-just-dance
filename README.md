@@ -1,4 +1,4 @@
-# Open Just Dance
+# Open Just Dance by @vincent-hsaalen and @skyline69
 
 ## Contents
 1. [What is Open Just Dance?](#what-is-it)
