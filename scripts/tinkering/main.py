@@ -4,14 +4,14 @@ import json
 import numpy as np
 import time
 import os
-
+from glob import glob
 def main():
    
     # runtime start
     starttime = time.time()
 
     # variables
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/choreographies/dance"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/single"
     jsonfiles: str = readPaths(output_dir)
     listwithparts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
@@ -47,66 +47,71 @@ def main():
     L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
 
     # print all anchors
+    print("\n----ANCHORS----")
     for count, coordinates in enumerate(returnAllKeyPointsOfChoreography(jsonfiles)[0]): 
         print(f'{count}. {listwithparts[count]}: {coordinates}')
     
     # calculate slopes
     SLOPES: list[np.float64] = [calculateSlope(POINTS_LIST[c][0][0], POINTS_LIST[c][0][1], POINTS_LIST[c][1][0], POINTS_LIST[c][1][1]) for c in range(0, len(POINTS_LIST))]
-    print(f"SLOPES: {SLOPES}")
+    print(f"\n----SLOPES----\n{SLOPES}")
     
     # calculate all angles
     
+    BODY: np.float64 = calculateAngle(SLOPES[0], SLOPES[23])
     ARM_RIGHT: np.float64 = calculateAngle(SLOPES[7], SLOPES[8])
     ARM_LEFT: np.float64 = calculateAngle(SLOPES[9], SLOPES[10])
-    SHOULDER_RIGHT: np.float64 = calculateAngle(SLOPES[5], SLOPES[6])
-    SHOULDER_LEFT: np.float64 = calculateAngle(SLOPES[5], SLOPES[6])
+    SHOULDER_RIGHT: np.float64 = calculateAngle(SLOPES[5], SLOPES[7])
+    SHOULDER_LEFT: np.float64 = calculateAngle(SLOPES[6], SLOPES[9])
+    LEG_RIGHT: np.float64 = calculateAngle(SLOPES[13], SLOPES[14])
+    LEG_LEFT: np.float64 = calculateAngle(SLOPES[15], SLOPES[16])
+    HIP_RIGHT: np.float64 = calculateAngle(SLOPES[11], SLOPES[13])
+    HIP_LEFT: np.float64 = calculateAngle(SLOPES[12], SLOPES[15])
 
-
-
-        
-        
-
-    # print(f"Angel: {calculateAngle(SLOPES[0], SLOPES[23])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[5], SLOPES[23])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[7], SLOPES[8])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[9], SLOPES[10])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[11], SLOPES[12])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[13], SLOPES[14])}°")
-    # print(f"Angel: {calculateAngle(SLOPES[15], SLOPES[16])}°")
+    print("\n----ANGELS----")
+    print(f"BODY: {BODY}°")
+    print(f"ARM_RIGHT: {ARM_RIGHT}°")
+    print(f"ARM_LEFT: {ARM_LEFT}°")
+    print(f"SHOULDER_RIGHT: {SHOULDER_RIGHT}°")
+    print(f"SHOULDER_LEFT: {SHOULDER_LEFT}°")
+    print(f"LEG_RIGHT: {LEG_RIGHT}°")
+    print(f"LEG_LEFT: {LEG_LEFT}°")
+    print(f"HIP_RIGHT: {HIP_RIGHT}°")
+    print(f"HIP_LEFT: {HIP_LEFT}°")
 
     endtime = time.time()
     elapsed_time = endtime - starttime
-    print('Execution time:', elapsed_time, 'seconds')
+    print(f'Execution time: {elapsed_time:.2} seconds')
 
-# function to get all the files in the directory ()
 @lru_cache(maxsize=None)
-def readPaths(filepath:str) -> list: return [os.path.join(filepath, file) for file in os.listdir(filepath)]
+def readPaths(filepath: str) -> list: return glob(f"{filepath}/*.json")
 
-def returnListofTuples(file,x):
+def returnListofTuples(file: str,x) -> list:
     with open(file[x]) as f:
         data = json.load(f)
     posekeypoints = data["people"][0]["pose_keypoints_2d"]
-    n = 3
-    del posekeypoints[n-1::n]
+    del posekeypoints[2::3]
    
-    listoftuples = []
-    for i in range(0, len(posekeypoints), 2):
-        listoftuples.append((posekeypoints[i], posekeypoints[i+1]))
-    return listoftuples
+    return [(posekeypoints[i], posekeypoints[i+1]) for i in range(0, len(posekeypoints), 2)]
 
 def returnAllKeyPointsOfChoreography(file: str) -> list: return [returnListofTuples(file, x) for x in range(0, len(file))]
 
-def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64:
-    angle_bg = np.tan(np.absolute((m1 - m2) / (1+m1*m2)))
+counter:int = 0
+
+def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64 | None:
+    global counter
+    angle_bg = np.arctan((m1 - m2) / (1+m1*m2))
     angle_gr = np.degrees(angle_bg)
+    
+
+    # if angle_gr < 0:
+    #     counter += 1
+    #     print(f"[{counter}. Aufruf] -> kleiner als 0!(Negativ)")
+    #     angle_gr = 180 + angle_gr
+    
+    
     return np.round_(angle_gr, decimals=2)
 
-def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64:
-    return np.round_((y2 - y1) / (x2 - x1), decimals=2)
-
-# get Porn from Rest API
-
-
+def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64: return np.round_((y2 - y1) / (x2 - x1), decimals=2)
 
 if __name__ == "__main__":
     main()

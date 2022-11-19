@@ -27,16 +27,18 @@ def main():
 @lru_cache(maxsize=None)
 def readPaths(filepath:str) -> list: return [os.path.join(filepath, file) for file in os.listdir(filepath)]
 
-def returnListofTuples(file,x):
+def returnListofTuples(file,x) -> list:
     with open(file[x]) as f:
         data = json.load(f)
     posekeypoints = data["people"][0]["pose_keypoints_2d"]
-    n = 3
-    del posekeypoints[n-1::n]
+
+    del posekeypoints[2::3]
    
-    listoftuples = []
-    for i in range(0, len(posekeypoints), 2):
-        listoftuples.append((posekeypoints[i], posekeypoints[i+1]))
+    # listoftuples = []
+    # for i in range(0, len(posekeypoints), 2):
+    #     listoftuples.append((posekeypoints[i], posekeypoints[i+1]))
+
+    listoftuples: list = [(posekeypoints[i], posekeypoints[i+1]) for i in range(0, len(posekeypoints), 2)]
     return listoftuples
 
 def returnAllKeyPointsOfChoreography(file):

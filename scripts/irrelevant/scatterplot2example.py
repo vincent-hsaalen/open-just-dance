@@ -1,43 +1,37 @@
-import os
 from functools import lru_cache
 import json
 import matplotlib.pyplot as plt
+from glob import glob
 
 def main():
 
     # variables
-    output_dir:str = "C:/Users/vince/Desktop/open-just-dance/output/choreographies/1"
+    output_dir:str = "C:/Users/vince/Desktop/open-just-dance/output/single"
     jsonfiles = readPaths(output_dir)
-    data = []
 
     # open json file and assigns its data to a dictionary
-    
-    a = returnListofTuples(jsonfiles,6000)
-    b = returnListofTuples(jsonfiles,6060)
+    plt.xlim(400)
+    plt.ylim(400)
+    a = returnListofTuples(jsonfiles,0)
 
-    ab = [a,b]
-    red = "red"
-    blue = "blue"
-    count = 0;
 
-    for lists in ab:
+    for count, coordinates in enumerate(a):
+        if count == 10:
+            plt.scatter(coordinates[0],coordinates[1], color="red")
         
-        for coordinates in lists:
-            if(count==0):
-                print("blue")
-                plt.scatter(coordinates[0],coordinates[1],color=blue)
-            elif(count==1):
-                print("red")
-                plt.scatter(coordinates[0],coordinates[1],color=red)
-                print(count)
-        count+=1
+        else:
+            plt.scatter(coordinates[0],coordinates[1], color="blue")
+
+        
+
+    print(max(a))
     
     plt.show()
 
-
 # function to get all the files in the directory ()
 @lru_cache(maxsize=None)
-def readPaths(filepath:str) -> list: return [os.path.join(filepath, file) for file in os.listdir(filepath)]
+def readPaths(filepath: str) -> list: return glob(f"{filepath}/*.json")
+
 
 def returnListofTuples(file,x):
     with open(file[x]) as f:
