@@ -100,13 +100,10 @@ counter:int = 0
 def calculateAngle(m1: np.float64, m2: np.float64) -> np.float64 | None:
     global counter
     angle_bg = np.arctan((m1 - m2) / (1+m1*m2))
-    angle_gr = np.degrees(angle_bg)
-    
+    angle_gr = 180 - np.degrees(angle_bg)
 
-    # if angle_gr < 0:
-    #     counter += 1
-    #     print(f"[{counter}. Aufruf] -> kleiner als 0!(Negativ)")
-    #     angle_gr = 180 + angle_gr
+    if angle_gr >  180: angle_gr = angle_gr - 180
+    
     
     
     return np.round_(angle_gr, decimals=2)
