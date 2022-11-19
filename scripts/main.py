@@ -12,30 +12,28 @@ def main():
     # --- variables --- #
 
     # path to json files
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/choreographies/dance"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = readPaths(output_dir)
     # total number of json files
     totalJsonFiles: int = len(jsonfiles)
     # list with body parts
-    bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
+    # bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
     
 
     # -------------------------------------------- #
     # prints all angles for AAAAAALLLLLLLLL json files in the output folder
 
-    # for count  in range(0, totalJsonFiles):
-    #     print(f"angles for iteration/frame {count}: ")
-    #     print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))
-    debugJsonFile(jsonfiles, 17)
-    debugJsonFile(jsonfiles, 18)
-    debugJsonFile(jsonfiles, 19)
+    for count in range(0, totalJsonFiles):
+        print(f"angles for iteration/frame {count}: ")
+        print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))#
+    
     # -------------------------------------------- #
 
     # --- runtime end --- #
     endtime = time.time()
     elapsed_time = endtime - starttime
-    print(f'Execution time: {elapsed_time:.2} seconds')
+    print(f'Execution time: {elapsed_time:.2f} seconds')
     # --- runtime end --- #
 
 # --- functions --- #
@@ -47,7 +45,7 @@ def readPaths(filepath: str) -> list: return glob(f"{filepath}/*.json")
 def returnListofTuples(file,index):
 
     # list that will contain all the key x,y and c values for one file
-    listoftuples = []
+    #listoftuples = []
     # open json file at index and fully read it
     with open(file[index]) as jsonFile:
         data = json.load(jsonFile)
@@ -60,10 +58,10 @@ def returnListofTuples(file,index):
    
    # create a list of tuples with the x,y values
    # --> [(x1,y1),(x2,y2),(x3,y3),...]
-    for i in range(0, len(keyPoints), 2):
-        listoftuples.append((keyPoints[i], keyPoints[i+1]))
+    #for i in range(0, len(keyPoints), 2):
+    #    listoftuples.append((keyPoints[i], keyPoints[i+1]))
 
-    return listoftuples
+    return [(keyPoints[i], keyPoints[i+1]) for i in range(0, len(keyPoints), 2)]
 
 # calculates angles of two lines by using the slope of the lines and calculating the arctan
 def calculateAngle(m1: np.float64, m2: np.float64, body_id:int) -> (np.float64 | None):
@@ -83,9 +81,20 @@ def calculateAngle(m1: np.float64, m2: np.float64, body_id:int) -> (np.float64 |
     return np.round_(angle_gr, decimals=2)
 
 # calculates the slope of two points by using the formula: m = (y2-y1)/(x2-x1)
+@lru_cache(maxsize=None, typed=True)
 def calculateSlope(x1: np.float64, y1: np.float64, x2: np.float64, y2: np.float64) -> np.float64: 
-    return np.round_((y2 - y1) / (x2 - x1), decimals=2)
-
+    NENNER: np.float64 = (y2 - y1)
+    ZAEHLER: np.float64 = (x2 - x1)
+    
+    if NENNER == np.float64(0) or ZAEHLER == np.float64(0):
+        # print("division by zero")
+        slope = np.float64(0)
+        return slope
+    else:
+        # print(f"Nenner: {nenner}\nZähler: {x2-x1}")
+        slope = np.round_((y2 - y1) / (x2 - x1), decimals=3)
+        return slope 
+    
 # only for debugging
 def printBodyPartsAndCoordinatesForDebuggingForOneFile(jsonfiles, index):
     parts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", 
@@ -141,7 +150,7 @@ def returnAngles(listOfSlopes):
 # each list of tuples is equivalent to one json file (one frame)
 def returnTotalSkeletonKeyPoints(listofjsonfiles):
     keyPointList = []
-    for count, data in enumerate(listofjsonfiles):
+    for count, _ in enumerate(listofjsonfiles):
         keyPointList.append(returnListofTuples(listofjsonfiles, count))
         # print(f'File {count} of {totalJsonFiles} done')
         # print(f'Data: {data}')
@@ -150,7 +159,7 @@ def returnTotalSkeletonKeyPoints(listofjsonfiles):
     # print(f'keyPointList: {keyPointList[60]}')
     return keyPointList
 
-def returnListWithPointsRelation(totalSkeletonPoints):
+def returnListWithPointsRelation(totalSkeletonPoints: list):
     listToReturn = []
     for skeletonPoints in totalSkeletonPoints: 
         # lists that contain two points that are in relation to each other 
