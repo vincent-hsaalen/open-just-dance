@@ -12,7 +12,7 @@ def main():
     # --- variables --- #
 
     # path to json files
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/choreographies/dance"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/output/single"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = readPaths(output_dir)
     # total number of json files
@@ -23,13 +23,10 @@ def main():
 
     # -------------------------------------------- #
     # prints all angles for AAAAAALLLLLLLLL json files in the output folder
-
-    # for count  in range(0, totalJsonFiles):
-    #     print(f"angles for iteration/frame {count}: ")
-    #     print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))
-    debugJsonFile(jsonfiles, 17)
-    debugJsonFile(jsonfiles, 18)
-    debugJsonFile(jsonfiles, 19)
+    for count  in range(0, totalJsonFiles):
+        print(f"angles for iteration/frame {count}: ")
+        print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))
+        
     # -------------------------------------------- #
 
     # --- runtime end --- #
@@ -186,9 +183,6 @@ def returnListWithPointsRelation(totalSkeletonPoints):
         L_11_24, L_11_22, L_22_23, L_14_19, L_14_21, L_19_20, L_1_8]
         listToReturn.append(pointsRelationList)
     return listToReturn
-
-def debugJsonFile(listofjsonfiles, index):
-    print(len(returnListofTuples(listofjsonfiles, index)))
 
 if __name__ == "__main__":
     main()
