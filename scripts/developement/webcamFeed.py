@@ -3,7 +3,11 @@ import json
 import numpy as np
 import time
 from glob import glob
+import os
+import time
+
 def main():
+    
    
     # --- runtime start --- #
     starttime = time.time()
@@ -13,20 +17,26 @@ def main():
 
     # path to json files
     output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance"
+    webcam_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/webcam"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = readPaths(output_dir)
+    webcamfiles: str = readPaths(webcam_dir)
     # total number of json files
     totalJsonFiles: int = len(jsonfiles)
-    # list with body parts
-    # bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
-    
 
     # -------------------------------------------- #
-    # prints all angles for AAAAAALLLLLLLLL json files in the output folder
+    counter: int = 0
+    while True:
+        counter += 1
+        print(f'Waiting for new json file since {counter} seconds')
+        time.sleep(1)
+        if(len(readPaths(webcam_dir)) > 0):
+            print(len(readPaths(webcam_dir)))
+            print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[0])))
+            deleteJsonFiles(webcam_dir)
+            break
 
-    for count in range(0, totalJsonFiles):
-        print(f"angles for iteration/frame {count}: ")
-        print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))#
+
     
     # -------------------------------------------- #
 
@@ -198,6 +208,12 @@ def returnListWithPointsRelation(totalSkeletonPoints: list):
 
 def debugJsonFile(listofjsonfiles, index):
     print(len(returnListofTuples(listofjsonfiles, index)))
+
+# deletes json files in FrameData/webcam folder after they have been used
+def deleteJsonFiles(directory):
+    files = os.listdir(directory)
+    for file in files:
+        os.remove(os.path.join(directory, file))
 
 if __name__ == "__main__":
     main()
