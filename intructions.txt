@@ -1,0 +1,17 @@
+INSTRUCTIONS:
+
+1. Folder structure:
+Create this folder structure.
+
+open-just-dance/
+├── scripts/
+│   ├── convertToAngles.py
+│   └── main.py
+├── output/
+│   ├── dance/
+│   └── webcam/
+├── instructions.txt
+└── readme.md
+
+2. Download scripts and files:
+Download the files from the link above and place them in the folder and subfolders you created.

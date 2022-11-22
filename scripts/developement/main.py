@@ -3,38 +3,28 @@ import json
 import numpy as np
 import time
 from glob import glob
+import scoring 
+
+# --- main start --- #
+
 def main():
    
-    # --- runtime start --- #
     starttime = time.time()
-    # --- runtime start --- #
-
-    # --- variables --- #
-
-    # path to json files
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v2"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = readPaths(output_dir)
-    # total number of json files
-    totalJsonFiles: int = len(jsonfiles)
-    # list with body parts
-    # bodyParts: list[str] = ["Nose", "Neck", "RShoulder", "RElbow", "RWrist", "LShoulder", "LElbow", "LWrist", "MidHip", "RHip", "RKnee", "RAnkle", "LHip", "LKnee", "LAnkle", "REye", "LEye", "REar", "LEar", "LBigToe", "LSmallToe", "LHeel", "RBigToe", "RSmallToe", "RHeel", "Background"]
-    
-
     # -------------------------------------------- #
-    # prints all angles for AAAAAALLLLLLLLL json files in the output folder
-
-    for count in range(0, totalJsonFiles):
-        print(f"angles for iteration/frame {count}: ")
-        print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))
+    
+    # print(returnListOfAngles(jsonfiles))
+    score = scoring.score(returnListOfAngles(jsonfiles), returnListOfAngles(jsonfiles))
+    print(score)
     
     # -------------------------------------------- #
-
-    # --- runtime end --- #
     endtime = time.time()
     elapsed_time = endtime - starttime
     print(f'Execution time: {elapsed_time:.2f} seconds')
-    # --- runtime end --- #
+
+# --- main end --- #
 
 # --- functions --- #
 
@@ -199,6 +189,13 @@ def returnListWithPointsRelation(totalSkeletonPoints: list):
 def debugJsonFile(listofjsonfiles, index):
     print(len(returnListofTuples(listofjsonfiles, index)))
 
+def returnListOfAngles(files):
+    listOfAngles = []
+    for count in range(0, len(files)):
+        angles = returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(files))[count]))
+        listOfAngles.append(angles)
+    return listOfAngles
+
 if __name__ == "__main__":
     main()
 
@@ -217,3 +214,12 @@ if __name__ == "__main__":
     # print(f'skeletonPoints: {skeletonPoints}')
     # print(len(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))))
     # print(returnTotalSkeletonKeyPoints(jsonfiles))
+
+    # # total number of json files
+    # totalJsonFiles: int = len(jsonfiles)
+
+    #     print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[0])))
+    # print("\n--- ANGLES ---")
+    # for count in range(0, totalJsonFiles):
+    #     print(f"angles for iteration/frame {count}: ")
+    #     print(returnAngles(returnSlopes(returnListWithPointsRelation(returnTotalSkeletonKeyPoints(jsonfiles))[count])))

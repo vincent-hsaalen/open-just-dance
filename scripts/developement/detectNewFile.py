@@ -1,13 +1,12 @@
 import time
+from os import listdir
+from os.path import isfile, join
 
 watchDirectory = "C:/Users/vince/Desktop/open-just-dance/FrameData/webcam"
 pollTime = 1
 
-
 def main():
     fileWatcher(watchDirectory, pollTime)
-from os import listdir
-from os.path import isfile, join
 
 #function to return files in a directory
 def fileInDirectory(my_dir: str):
