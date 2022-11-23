@@ -14,6 +14,7 @@ def returnListofTuples(file,index):
     # open json file at index and fully read it
     with open(file[index]) as jsonFile:
         data = json.load(jsonFile)
+        jsonFile.close()
 
     # get ONLY the keypoints from the json file
     keyPoints = data["people"][0]["pose_keypoints_2d"]

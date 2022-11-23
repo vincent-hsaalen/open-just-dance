@@ -8,8 +8,10 @@ import scoring_v2 as sc_v2
 def main():
    
     starttime = time.time()
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/reference/"
-    input_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/actual/"
+    # output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/reference/"
+    # input_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/actual/"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/openpose/reference"
+    input_dir: str = "C:/Users/vince/Desktop/open-just-dance/openpose/choreo"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = rc.readPaths(output_dir)
     inputfiles: str = rc.readPaths(input_dir)
@@ -26,7 +28,7 @@ def main():
     print("score_v2:")
 
     # check with tolerance
-    score = sc_v2.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles), 10)
+    score = sc_v2.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles), 30)
     print(f'score = {score}/1000000')
 
     

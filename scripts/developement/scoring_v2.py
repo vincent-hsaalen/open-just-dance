@@ -8,10 +8,10 @@ def score(referenceAngleList, actualAngleList, tolerance):
     """
     Calculates score with a linear function (y = 4x-3) in dependence of the similarity of the angles.
 
-    :param list referenceAngleList: list of lists containing the reference angles
-    :param list actualAngleList: list of lists containing the actual angles
-    :param int tolerance: tolerance for the user by taking the highest similary for x frames because of latency (0 = no tolerance)
-    :return: total score (max=1000000)
+    referenceAngleList: list of lists containing the reference angles
+    actualAngleList: list of lists containing the actual angles
+    tolerance: tolerance for the user by taking the highest similary for x frames because of latency (0 = no tolerance)
+    returns: total score (max=1000000)
 
     """
 
