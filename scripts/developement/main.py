@@ -1,22 +1,35 @@
 import time
-import scoring 
+import scoring as sc
 import readAndCalculate as rc
+import scoring_v2 as sc_v2
 
 # --- main start --- #
 
 def main():
    
     starttime = time.time()
-    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance"
+    output_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/reference/"
+    input_dir: str = "C:/Users/vince/Desktop/open-just-dance/FrameData/dance/v1/actual/"
     # list of strings containing the file location of each/every json file
     jsonfiles: str = rc.readPaths(output_dir)
+    inputfiles: str = rc.readPaths(input_dir)
+
     # -------------------------------------------- #
     
-    # print(returnListOfAngles(jsonfiles))
-    score = scoring.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(jsonfiles))
-    print(score)
+
+    # check one by one
+    score = sc.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles))
+    print(f'score = {score}/1000000')
+
+    print("--------------------------------------------")
+
+    # check with tolerance
+    score = sc_v2.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles), 10)
+    print(f'score = {score}/1000000')
+
     
     # -------------------------------------------- #
+
     endtime = time.time()
     elapsed_time = endtime - starttime
     print(f'Execution time: {elapsed_time:.2f} seconds')

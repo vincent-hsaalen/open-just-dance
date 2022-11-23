@@ -1,3 +1,4 @@
 **/openpose
 **/FrameData
 **/.vscode
+__pycache__/
