@@ -12,7 +12,7 @@ def score(referenceAngleList, actualAngleList):
     scoreForAngle = maxScore / totalAngles
     score = 0
 
-    print(f'totalAngles = {totalAngles} \nscoreForAngle = {scoreForAngle}') 
+    # print(f'totalAngles = {totalAngles} \nscoreForAngle = {scoreForAngle}') 
 
     for referenceAngles, actualAngles in zip(referenceAngleList, actualAngleList):
         # print(f'referenceAngles: {referenceAngles}')

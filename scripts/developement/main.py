@@ -16,12 +16,14 @@ def main():
 
     # -------------------------------------------- #
     
-
+    print("score_v1:")
+    
     # check one by one
     score = sc.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles))
     print(f'score = {score}/1000000')
 
-    print("--------------------------------------------")
+    print("\n")
+    print("score_v2:")
 
     # check with tolerance
     score = sc_v2.score(rc.returnListOfAngles(jsonfiles), rc.returnListOfAngles(inputfiles), 10)
@@ -29,7 +31,7 @@ def main():
 
     
     # -------------------------------------------- #
-
+    print("\n")
     endtime = time.time()
     elapsed_time = endtime - starttime
     print(f'Execution time: {elapsed_time:.2f} seconds')
