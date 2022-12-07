@@ -1,5 +1,7 @@
 # Open Just Dance by @vincent-hsaalen and @skyline69
 
+**no longer maintained - currently planning to try out [mediapipe](https://mediapipe.dev/) and migrating to Unity using Sony's unrealeased [Mocopi SDK](https://www.sony.jp/mocopi/)**
+
 ## Contents
 1. [What is Open Just Dance?](#what-is-it)
 2. [Ambition](#ambition)
